@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#P#",
+        "gDg",
+        "III"
+    ],
+    "key": {
+        "P": {
+            "item": "minecraft:tnt"
+        },
+        "#": {
+            "item": "launchersmod:launcher_block"
+        },
+        "g": {
+            "item": "minecraft:gold_ingot"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "I": {
+            "item": "minecraft:iron_block"
+        }
+    },
+    "result": {
+        "item": "launchersmod:powered_launcher_block",
+        "count": 1
+    }
+}

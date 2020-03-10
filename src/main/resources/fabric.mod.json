@@ -1,0 +1,35 @@
+{
+    "schemaVersion": 1,
+    "id": "launchersmod",
+    "version": "${version}",
+    "name": "Launchers",
+    "description": "Introduce three different Launcher Blocks",
+    "authors": [
+        "t_r_a_t"
+    ],
+    "contact": {
+        "homepage": "https://fabricmc.net/",
+        "sources": "https://github.com/FabricMC/fabric-example-mod"
+    },
+    "license": "CC0-1.0",
+    "icon": "assets/launchersmod/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "net.launchers.mod.LaunchersLoader"
+        ],
+        "client": [
+        ]
+    },
+    "mixins": [
+        "launchersmod.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.7.2",
+        "fabric": "*",
+        "minecraft": "1.15.x"
+    },
+    "suggests": {
+        "flamingo": "*"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "variants":
+    {
+        "": { "model": "launchersmod:block/extreme_launcher_block" }
+    }
+}

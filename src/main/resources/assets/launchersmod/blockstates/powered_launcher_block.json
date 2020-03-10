@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "launchersmod:block/powered_launcher_block"
+    }
+  }
+}
