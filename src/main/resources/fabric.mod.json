@@ -16,7 +16,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "net.launchers.mod.LaunchersLoader"
+            "net.launchers.mod.loader.LaunchersLoader"
         ],
         "client": [
         ]
