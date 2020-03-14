@@ -1,25 +1,19 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#T#",
-        "DDD",
-        "IGI"
+        "#D#",
+        "#D#",
+        "#U#"
     ],
     "key": {
-        "T": {
-            "item": "minecraft:tnt"
-        },
         "#": {
-            "item": "launchersmod:powered_launcher_block"
-        },
-        "D": {
-            "item": "minecraft:diamond"
-        },
-        "I": {
             "item": "minecraft:iron_block"
         },
-        "G": {
-            "item": "minecraft:gold_block"
+        "D": {
+            "item": "launchersmod:powered_launcher_block"
+        },
+        "U": {
+            "item": "minecraft:diamond"
         }
     },
     "result": {

@@ -19,6 +19,7 @@
             "net.launchers.mod.loader.LaunchersLoader"
         ],
         "client": [
+            "net.launchers.mod.loader.ClientLoader"
         ]
     },
     "mixins": [

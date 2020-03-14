@@ -1,6 +1,6 @@
 package net.launchers.mod.mixin;
 
-import net.launchers.mod.block.LauncherBlock;
+import net.launchers.mod.block.abstraction.AbstractLauncherBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -22,13 +22,16 @@ public abstract class LivingEntityMixin extends Entity
     @Inject(at = @At("HEAD"), method = "jump", cancellable = true)
     private void jump(CallbackInfo info)
     {
-        BlockPos pos = new BlockPos(getX(), getY() - 1, getZ());
-        if(world.getBlockState(pos).getBlock() instanceof LauncherBlock)
+        if(!world.isClient)
         {
-            LauncherBlock launcherBlock = (LauncherBlock) world.getBlockState(pos).getBlock();
-            LivingEntity instance = (LivingEntity) (Object) this;
-            launcherBlock.launchLivingEntity(world, pos, instance);
-            info.cancel();
+            BlockPos pos = new BlockPos(getX(), getY() - 1, getZ());
+            if(world.getBlockState(pos).getBlock() instanceof AbstractLauncherBlock)
+            {
+                AbstractLauncherBlock launcherBlock = (AbstractLauncherBlock) world.getBlockState(pos).getBlock();
+                LivingEntity instance = (LivingEntity) (Object) this;
+                launcherBlock.launchSingleEntity(world, pos, instance);
+                info.cancel();
+            }
         }
     }
 }

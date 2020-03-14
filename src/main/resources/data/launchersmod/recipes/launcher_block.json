@@ -1,22 +1,19 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "iTi",
         "iPi",
-        "SRS"
+        "iTi",
+        "iRi"
     ],
     "key": {
         "i": {
             "item": "minecraft:iron_ingot"
         },
-        "T": {
-            "item": "minecraft:tnt"
-        },
         "P": {
             "item": "minecraft:piston"
         },
-        "S": {
-            "item": "minecraft:stone"
+        "T": {
+            "item": "minecraft:tnt"
         },
         "R": {
             "item": "minecraft:redstone"
