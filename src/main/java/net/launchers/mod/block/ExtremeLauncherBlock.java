@@ -16,7 +16,7 @@ public class ExtremeLauncherBlock extends AbstractLauncherBlock
     
     public ExtremeLauncherBlock()
     {
-        super(FabricBlockSettings.of(Material.METAL).breakByHand((true)).sounds(BlockSoundGroup.METAL).strength(0.8F, 0.5F).build());
+        super(FabricBlockSettings.of(Material.METAL).breakByHand((true)).strength(2F, 1.8F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds().build());
         baseMultiplier = 3F;
         stackPowerPercentage = 0.325F;
         stackMultiplier = baseMultiplier * stackPowerPercentage;

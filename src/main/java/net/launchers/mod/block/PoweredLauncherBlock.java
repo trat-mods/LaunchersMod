@@ -16,7 +16,7 @@ public class PoweredLauncherBlock extends AbstractLauncherBlock
     
     public PoweredLauncherBlock()
     {
-        super(FabricBlockSettings.of(Material.METAL).breakByHand((true)).sounds(BlockSoundGroup.METAL).strength(0.8F, 0.5F).build());
+        super(FabricBlockSettings.of(Material.METAL).breakByHand((true)).strength(1F, 0.85F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds().build());
         baseMultiplier = 2F;
         stackPowerPercentage = 0.325F;
         stackMultiplier = baseMultiplier * stackPowerPercentage;

@@ -22,13 +22,14 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity implements
     {EXTENDED, RETRACTED, MOVING}
     
     public LauncherState[] states;
-    protected float extensionStride = 1F; // 1/stride ticks per move
-    protected float retractingStride = extensionStride / 4;
-    protected int retractingDelay = 200;
+    private float extensionStride = 1F; // 1/stride ticks per move
+    private float retractingStride = extensionStride / 4;
+    private int retractingDelay = 1;
     
-    protected float progress;
-    protected float lastProgress;
-    protected boolean extending = true; // true if its extending, false if retracting
+    private float maxExtendCoefficient;
+    private float progress;
+    private float lastProgress;
+    private boolean extending = true; // true if its extending, false if retracting
     
     protected int currentTick = 0;
     
@@ -133,7 +134,6 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity implements
     
     public void startExtending()
     {
-        System.out.println("Starting");
         extending = true;
         launcherState = LauncherState.MOVING;
         progress = 0;

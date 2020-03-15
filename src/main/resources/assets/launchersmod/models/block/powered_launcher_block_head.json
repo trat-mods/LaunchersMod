@@ -1,0 +1,8 @@
+{
+    "parent": "launchersmod:template/template_launcher_head",
+    "textures": {
+        "extender": "launchersmod:block/powered_launcher_block_extender",
+        "top": "launchersmod:block/powered_launcher_block_head_top",
+        "side": "launchersmod:block/powered_launcher_block_head_side"
+    }
+}

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": {"model": "launchersmod:block/powered_launcher_block"}
+        "models=0": {"model": "launchersmod:block/powered_launcher_block"},
+        "models=1": {"model": "launchersmod:block/powered_launcher_block_head"},
+        "models=2": {"model": "launchersmod:block/powered_launcher_block_head_short"}
     }
 }

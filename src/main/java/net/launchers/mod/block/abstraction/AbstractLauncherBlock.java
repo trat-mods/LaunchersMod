@@ -1,40 +1,47 @@
 package net.launchers.mod.block.abstraction;
 
 import net.launchers.mod.entity.abstraction.AbstractLauncherBlockEntity;
+import net.launchers.mod.loader.LaunchersLoader;
+import net.launchers.mod.network.LaunchersNetworkHandler;
+import net.launchers.mod.network.packet.UnboundedPlayerVelocityS2CPacket;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.network.packet.EntityVelocityUpdateS2CPacket;
+import net.minecraft.client.network.packet.PlaySoundS2CPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public abstract class AbstractLauncherBlock extends Block implements BlockEntityProvider
 {
+    public static final Identifier LAUNCH_SOUND = new Identifier(LaunchersLoader.MOD_ID, "launcher_block_launch");
+    
     public static final IntProperty MODELS = IntProperty.of("models", 0, 2);
-    private double launchForce = 1F;
+    private float launchForce = 1F;
     //PistonHeadBlock
     private int maxStackable = 4;
-    protected double stackPowerPercentage = 0.325F;
-    protected double stackMultiplier = 0.325;
-    protected double baseMultiplier = 1F;
+    protected float stackPowerPercentage;
+    protected float stackMultiplier;
+    protected float baseMultiplier;
     
+    //TntEntity
     public AbstractLauncherBlock(Settings settings)
     {
         super(settings);
@@ -45,7 +52,7 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext ePos)
     {
         AbstractLauncherBlockEntity entity = (AbstractLauncherBlockEntity) view.getBlockEntity(pos);
-        return entity != null ? entity.getCollisionShape() : VoxelShapes.empty();
+        return entity != null ? entity.getCollisionShape() : Block.createCuboidShape(0F, 0F, 0F, 16F, 16F, 16F);
     }
     
     @Override
@@ -61,30 +68,30 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     
     public void launchEntities(World world, BlockPos pos, List<LivingEntity> entities)
     {
-        if(world.isClient) return;
-        if(entities.size() < 1)
+        if(!world.isClient)
         {
-            return;
-        }
-        double force = launchForce * baseMultiplier;
-        BlockPos currentPos = pos.down();
-        int currentIndex = 1;
-        double multiplier = 1F;
-        Block current;
-        while(currentIndex < maxStackable && (current = world.getBlockState(currentPos).getBlock()) instanceof AbstractLauncherBlock)
-        {
-            AbstractLauncherBlock launcherBlock = (AbstractLauncherBlock) current;
-            multiplier += launcherBlock.stackMultiplier;
-            currentPos = currentPos.down();
-            currentIndex++;
-        }
-        force *= multiplier;
-        System.out.println("F: " + force + ", SM: " + multiplier + ", Index: " + currentIndex);
-        for(LivingEntity entity : entities)
-        {
-            System.out.println("Setting velocity");
-            entity.setVelocity(0F, force, 0F);
-            Objects.requireNonNull(world.getServer()).getPlayerManager().sendToAll(new EntityVelocityUpdateS2CPacket(entity));
+            if(entities.size() < 1)
+            {
+                return;
+            }
+            float force = launchForce * baseMultiplier;
+            BlockPos currentPos = pos.down();
+            int currentIndex = 1;
+            double multiplier = 1F;
+            Block current;
+            while(currentIndex < maxStackable && (current = world.getBlockState(currentPos).getBlock()) instanceof AbstractLauncherBlock)
+            {
+                AbstractLauncherBlock launcherBlock = (AbstractLauncherBlock) current;
+                multiplier += launcherBlock.stackMultiplier;
+                currentPos = currentPos.down();
+                currentIndex++;
+            }
+            force *= multiplier;
+            for(LivingEntity entity : entities)
+            {
+                UnboundedPlayerVelocityS2CPacket packet = new UnboundedPlayerVelocityS2CPacket(entity, 0F, force, 0F);
+                LaunchersNetworkHandler.sendToAll(packet, world.getServer().getPlayerManager());
+            }
         }
     }
     
@@ -92,10 +99,11 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos neighborPos, boolean moved)
     {
         AbstractLauncherBlockEntity launcherBlockEntity = (AbstractLauncherBlockEntity) world.getBlockEntity(pos);
-        if(world.isReceivingRedstonePower(pos) || world.isReceivingRedstonePower(pos.up()) && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED)
+        if(world.isReceivingRedstonePower(pos) && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED)
         {
-            world.getBlockTickScheduler().schedule(pos, this, this.getTickRate(world));
+            world.getBlockTickScheduler().schedule(pos, this, getTickRate(world));
         }
+        super.neighborUpdate(state, world, pos, block, neighborPos, moved);
     }
     
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
@@ -103,10 +111,25 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
         if(canLaunch(world, pos))
         {
             List<LivingEntity> livingEntities = world.getNonSpectatingEntities(LivingEntity.class, (new Box(pos)).expand(0D, 1D, 0D));
-            System.out.println("Launching redstone " + livingEntities.size());
             launchEntities(world, pos, livingEntities);
+            playLaunchSound(world, pos);
             ((AbstractLauncherBlockEntity) world.getBlockEntity(pos)).startExtending();
         }
+    }
+    
+    private void playLaunchSound(World world, BlockPos pos)
+    {
+        double d = (double) pos.getX() + 0.5D;
+        double e = (double) pos.getY();
+        double f = (double) pos.getZ() + 0.5D;
+        PlaySoundS2CPacket soundS2CPacket = new PlaySoundS2CPacket(LaunchersLoader.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, d, e, f, 1.25F, 0.9F);
+        world.getServer().getPlayerManager().sendToAll(soundS2CPacket);
+    }
+    
+    @Override
+    public int getTickRate(WorldView worldView)
+    {
+        return 2;
     }
     
     public void launchSingleEntity(World world, BlockPos pos, LivingEntity entity)
@@ -123,8 +146,7 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     public boolean canLaunch(World world, BlockPos pos)
     {
         AbstractLauncherBlockEntity launcherBlockEntity = (AbstractLauncherBlockEntity) world.getBlockEntity(pos);
-        return world.getBlockState(pos.up()).getBlock() == Blocks.AIR &&
-               launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED;
+        return world.getBlockState(pos.up()).getBlock() == Blocks.AIR && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED;
     }
     
     @Override

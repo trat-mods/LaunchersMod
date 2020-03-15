@@ -1,19 +1,22 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#D#",
+        "#T#",
         "#D#",
         "#U#"
     ],
     "key": {
+        "T": {
+            "item": "minecraft:tnt"
+        },
         "#": {
-            "item": "minecraft:iron_block"
+            "item": "minecraft:diamond"
         },
         "D": {
             "item": "launchersmod:powered_launcher_block"
         },
         "U": {
-            "item": "minecraft:diamond"
+            "item": "minecraft:redstone"
         }
     },
     "result": {

@@ -1,9 +1,9 @@
 {
     "parent": "block/block",
     "textures": {
-        "particle": "launchersmod:block/launcher_block_top",
-        "down": "launchersmod:block/launcher_block_bottom",
         "up": "launchersmod:block/launcher_block_top",
+        "particle": "#up",
+        "down": "launchersmod:block/launcher_block_bottom",
         "side": "launchersmod:block/launcher_block_side"
     },
     "elements": [
