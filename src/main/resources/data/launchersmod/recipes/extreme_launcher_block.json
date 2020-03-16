@@ -1,9 +1,9 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#T#",
         "#D#",
-        "#U#"
+        "#T#",
+        "###"
     ],
     "key": {
         "T": {
@@ -14,9 +14,6 @@
         },
         "D": {
             "item": "launchersmod:powered_launcher_block"
-        },
-        "U": {
-            "item": "minecraft:redstone"
         }
     },
     "result": {

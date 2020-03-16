@@ -40,7 +40,6 @@ public class UnboundedPlayerVelocityS2CPacket extends CustomPacket
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             Entity targetEntity = ctx.getPlayer().world.getEntityById(entityId);
             targetEntity.setVelocity(velocity);
-            System.out.println("The target entity velocity has been set");
         });
     }
     

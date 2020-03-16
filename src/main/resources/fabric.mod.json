@@ -16,14 +16,13 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "net.launchers.mod.loader.LaunchersLoader"
+            "net.launchers.mod.loader.LMLoader"
         ],
         "client": [
             "net.launchers.mod.loader.ClientLoader"
         ]
     },
     "mixins": [
-        "launchersmod.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=0.7.2",

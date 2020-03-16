@@ -1,7 +1,8 @@
 package net.launchers.mod.block.abstraction;
 
 import net.launchers.mod.entity.abstraction.AbstractLauncherBlockEntity;
-import net.launchers.mod.loader.LaunchersLoader;
+import net.launchers.mod.initializer.LMSounds;
+import net.launchers.mod.loader.LMLoader;
 import net.launchers.mod.network.LaunchersNetworkHandler;
 import net.launchers.mod.network.packet.UnboundedPlayerVelocityS2CPacket;
 import net.minecraft.block.Block;
@@ -16,7 +17,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -31,21 +34,27 @@ import java.util.Random;
 
 public abstract class AbstractLauncherBlock extends Block implements BlockEntityProvider
 {
-    public static final Identifier LAUNCH_SOUND = new Identifier(LaunchersLoader.MOD_ID, "launcher_block_launch");
-    
+    public static final Identifier LAUNCH_SOUND = new Identifier(LMLoader.MOD_ID, "launcher_block_launch");
+    public static final BooleanProperty TRIGGERED;
     public static final IntProperty MODELS = IntProperty.of("models", 0, 2);
     private float launchForce = 1F;
-    //PistonHeadBlock
     private int maxStackable = 4;
     protected float stackPowerPercentage;
     protected float stackMultiplier;
     protected float baseMultiplier;
     
+    static
+    {
+        TRIGGERED = Properties.TRIGGERED;
+    }
+    
+    //DropperBlock
+    
     //TntEntity
     public AbstractLauncherBlock(Settings settings)
     {
         super(settings);
-        this.setDefaultState((BlockState) ((BlockState) ((BlockState) this.stateManager.getDefaultState()).with(MODELS, 0)));
+        this.setDefaultState((BlockState) ((BlockState) ((BlockState) this.stateManager.getDefaultState()).with(MODELS, 0).with(TRIGGERED, false)));
     }
     
     @Override
@@ -63,7 +72,7 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     
     @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
     {
-        builder.add(MODELS);
+        builder.add(MODELS, TRIGGERED);
     }
     
     public void launchEntities(World world, BlockPos pos, List<LivingEntity> entities)
@@ -99,11 +108,19 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos neighborPos, boolean moved)
     {
         AbstractLauncherBlockEntity launcherBlockEntity = (AbstractLauncherBlockEntity) world.getBlockEntity(pos);
-        if(world.isReceivingRedstonePower(pos) && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED)
+        boolean isRecevingRedstonePower = world.isReceivingRedstonePower(pos);
+        boolean isTriggered = (Boolean) state.get(TRIGGERED);
+        boolean isRetracted = launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED;
+        if(!isRetracted) return;
+        if(isRecevingRedstonePower && !isTriggered)
         {
-            world.getBlockTickScheduler().schedule(pos, this, getTickRate(world));
+            world.getBlockTickScheduler().schedule(pos, this, this.getTickRate(world));
+            world.setBlockState(pos, (BlockState) state.with(TRIGGERED, true), 4);
         }
-        super.neighborUpdate(state, world, pos, block, neighborPos, moved);
+        else if(!isRecevingRedstonePower && isTriggered)
+        {
+            world.setBlockState(pos, (BlockState) state.with(TRIGGERED, false), 4);
+        }
     }
     
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
@@ -117,13 +134,17 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
         }
     }
     
-    private void playLaunchSound(World world, BlockPos pos)
+    protected void playLaunchSound(World world, BlockPos pos)
     {
         double d = (double) pos.getX() + 0.5D;
         double e = (double) pos.getY();
         double f = (double) pos.getZ() + 0.5D;
-        PlaySoundS2CPacket soundS2CPacket = new PlaySoundS2CPacket(LaunchersLoader.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, d, e, f, 1.25F, 0.9F);
-        world.getServer().getPlayerManager().sendToAll(soundS2CPacket);
+        world.getServer().getPlayerManager().sendToAll(createLaunchSoundPacket(d, e, f));
+    }
+    
+    public PlaySoundS2CPacket createLaunchSoundPacket(double x, double y, double z)
+    {
+        return new PlaySoundS2CPacket(LMSounds.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, x, y, z, 1F, 1F);
     }
     
     @Override

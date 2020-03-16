@@ -40,7 +40,6 @@ public abstract class AbstractLauncherBlockEntityRenderer<T extends AbstractLaun
         {
             model = blockRenderManager.getModel(blockState.with(AbstractLauncherBlock.MODELS, 1));
         }
-        //System.out.println(extension);
         matrices.translate(0, extension, 0);
         RenderLayer renderLayer = RenderLayers.getEntityBlockLayer(entityState);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);

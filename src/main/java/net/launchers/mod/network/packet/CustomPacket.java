@@ -3,14 +3,14 @@ package net.launchers.mod.network.packet;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
-import net.launchers.mod.loader.LaunchersLoader;
+import net.launchers.mod.loader.LMLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 
 public abstract class CustomPacket
 {
-    public static Identifier PACKET_ID = new Identifier(LaunchersLoader.MOD_ID, "cp");
+    public static Identifier PACKET_ID = new Identifier(LMLoader.MOD_ID, "cp");
     
     public CustomPacket()
     {

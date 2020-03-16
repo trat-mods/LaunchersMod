@@ -24,7 +24,7 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity implements
     public LauncherState[] states;
     private float extensionStride = 1F; // 1/stride ticks per move
     private float retractingStride = extensionStride / 4;
-    private int retractingDelay = 1;
+    private int retractingDelay = 2;
     
     private float maxExtendCoefficient;
     private float progress;
