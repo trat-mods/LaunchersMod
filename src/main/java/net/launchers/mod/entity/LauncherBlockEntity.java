@@ -9,6 +9,4 @@ public class LauncherBlockEntity extends AbstractLauncherBlockEntity
     {
         super(LMEntities.LAUNCHER_BLOCK_ENTITY);
     }
-    
-    
 }

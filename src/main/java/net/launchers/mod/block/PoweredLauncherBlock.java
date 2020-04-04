@@ -27,7 +27,7 @@ public class PoweredLauncherBlock extends AbstractLauncherBlock
     
     @Override public PlaySoundS2CPacket createLaunchSoundPacket(double x, double y, double z)
     {
-        return new PlaySoundS2CPacket(LMSounds.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, x, y, z, 0.85F, 0.875F);
+        return new PlaySoundS2CPacket(LMSounds.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, x, y, z, 0.9F, 0.875F);
     }
     
     @Override
