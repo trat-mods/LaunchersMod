@@ -7,7 +7,7 @@ import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.network.packet.PlaySoundS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -20,8 +20,8 @@ public class ExtremeLauncherBlock extends AbstractLauncherBlock
     public ExtremeLauncherBlock()
     {
         super(FabricBlockSettings.of(Material.METAL).breakByHand((true)).strength(2F, 1.8F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds().build());
-        baseMultiplier = 3F;
-        stackPowerPercentage = 0.325F;
+        baseMultiplier = 2.95F;
+        stackPowerPercentage = 0.275F;
         stackMultiplier = baseMultiplier * stackPowerPercentage;
     }
     

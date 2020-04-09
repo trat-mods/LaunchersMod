@@ -7,7 +7,7 @@ import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.network.packet.PlaySoundS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -20,12 +20,13 @@ public class PoweredLauncherBlock extends AbstractLauncherBlock
     public PoweredLauncherBlock()
     {
         super(FabricBlockSettings.of(Material.METAL).breakByHand((true)).strength(1F, 0.85F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds().build());
-        baseMultiplier = 2F;
-        stackPowerPercentage = 0.325F;
+        baseMultiplier = 2.125F;
+        stackPowerPercentage = 0.2975F;
         stackMultiplier = baseMultiplier * stackPowerPercentage;
     }
     
-    @Override public PlaySoundS2CPacket createLaunchSoundPacket(double x, double y, double z)
+    @Override
+    public PlaySoundS2CPacket createLaunchSoundPacket(double x, double y, double z)
     {
         return new PlaySoundS2CPacket(LMSounds.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, x, y, z, 0.9F, 0.875F);
     }
