@@ -3,14 +3,13 @@ package net.launchers.mod.initializer;
 import net.launchers.mod.block.ExtremeLauncherBlock;
 import net.launchers.mod.block.LauncherBlock;
 import net.launchers.mod.block.PoweredLauncherBlock;
-import net.minecraft.block.Block;
 import net.minecraft.util.registry.Registry;
 
 public class LMBlock
 {
-    public static final Block LAUNCHER_BLOCK = new LauncherBlock();
-    public static final Block POWERED_LAUNCHER_BLOCK = new PoweredLauncherBlock();
-    public static final Block EXTREME_LAUNCHER_BLOCK = new ExtremeLauncherBlock();
+    public static final LauncherBlock LAUNCHER_BLOCK = new LauncherBlock();
+    public static final PoweredLauncherBlock POWERED_LAUNCHER_BLOCK = new PoweredLauncherBlock();
+    public static final ExtremeLauncherBlock EXTREME_LAUNCHER_BLOCK = new ExtremeLauncherBlock();
     
     public static void initialize()
     {

@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
@@ -23,6 +24,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -40,8 +42,8 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     private float launchForce = 1F;
     private int maxStackable = 4;
     protected float stackPowerPercentage;
-    protected float stackMultiplier;
-    protected float baseMultiplier;
+    public float stackMultiplier;
+    public float baseMultiplier;
     
     static
     {
@@ -98,7 +100,9 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
             force *= multiplier;
             for(LivingEntity entity : entities)
             {
-                UnboundedPlayerVelocityS2CPacket packet = new UnboundedPlayerVelocityS2CPacket(entity, 0F, force, 0F);
+                System.out.println(force);
+                entity.setVelocity(new Vec3d(0F, force, 0F));
+                UnboundedPlayerVelocityS2CPacket packet = new UnboundedPlayerVelocityS2CPacket(entity.getEntityId(), 0F, force, 0F);
                 LaunchersNetworkHandler.sendToAll(packet, world.getServer().getPlayerManager());
             }
         }
@@ -127,7 +131,7 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     {
         if(canLaunch(world, pos))
         {
-            List<LivingEntity> livingEntities = world.getNonSpectatingEntities(LivingEntity.class, (new Box(pos)).expand(0D, 1D, 0D));
+            List<LivingEntity> livingEntities = world.getEntities(LivingEntity.class, (new Box(pos)).expand(0D, 2D, 0D), EntityPredicates.EXCEPT_SPECTATOR);
             launchEntities(world, pos, livingEntities);
             playLaunchSound(world, pos);
             ((AbstractLauncherBlockEntity) world.getBlockEntity(pos)).startExtending();
