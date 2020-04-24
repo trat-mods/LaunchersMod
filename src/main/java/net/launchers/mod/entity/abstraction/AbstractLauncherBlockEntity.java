@@ -1,5 +1,7 @@
 package net.launchers.mod.entity.abstraction;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -71,6 +73,7 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity implements
         }
     }
     
+    @Environment(EnvType.CLIENT)
     public float getDeltaProgress(float tickDelta)
     {
         if(tickDelta > 1.0F)
@@ -162,12 +165,11 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity implements
     
     public CompoundTag toTag(CompoundTag tag)
     {
-        super.toTag(tag);
         tag.putInt("currentTick", currentTick);
         tag.putFloat("progress", this.lastProgress);
         tag.putBoolean("extending", this.extending);
         tag.putInt("launcherState", launcherState.ordinal());
-        return tag;
+        return super.toTag(tag);
     }
     
     @Override public void fromClientTag(CompoundTag compoundTag)
