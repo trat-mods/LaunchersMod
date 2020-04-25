@@ -1,11 +1,11 @@
 package net.launchers.mod.initializer;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
@@ -42,14 +42,14 @@ public abstract class LMCommands
                               .executes(ctx ->
                               {
                                   launchersList.add(getString(ctx, "first"));
-                                  return checkIdsAndPrintForce(launchersList);
+                                  return checkIdsAndPrintForce(launchersList, ctx);
                               })
                               .then(CommandManager.argument("second", word()).suggests(suggestedStrings())
                                     .executes(ctx ->
                                           {
                                               launchersList.add(getString(ctx, "first"));
                                               launchersList.add(getString(ctx, "second"));
-                                              return checkIdsAndPrintForce(launchersList);
+                                              return checkIdsAndPrintForce(launchersList, ctx);
                                           }
                                              )
                                     .then(CommandManager.argument("third", word()).suggests(suggestedStrings())
@@ -58,7 +58,7 @@ public abstract class LMCommands
                                                     launchersList.add(getString(ctx, "first"));
                                                     launchersList.add(getString(ctx, "second"));
                                                     launchersList.add(getString(ctx, "third"));
-                                                    return checkIdsAndPrintForce(launchersList);
+                                                    return checkIdsAndPrintForce(launchersList, ctx);
                                                 }
                                                    )
                                           .then(CommandManager.argument("fourth", word()).suggests(suggestedStrings())
@@ -68,7 +68,7 @@ public abstract class LMCommands
                                                           launchersList.add(getString(ctx, "second"));
                                                           launchersList.add(getString(ctx, "third"));
                                                           launchersList.add(getString(ctx, "fourth"));
-                                                          return checkIdsAndPrintForce(launchersList);
+                                                          return checkIdsAndPrintForce(launchersList, ctx);
                                                       }
                                                          )
                                                )
@@ -77,7 +77,7 @@ public abstract class LMCommands
                              )
                         .executes(ctx ->
                         {
-                            return checkIdsAndPrintForce(launchersList);
+                            return checkIdsAndPrintForce(launchersList, ctx);
                         })
                                );
         }
@@ -136,15 +136,15 @@ public abstract class LMCommands
             return base * multipier;
         }
         
-        private static int checkIdsAndPrintForce(ArrayList<String> launchersList)
+        private static int checkIdsAndPrintForce(ArrayList<String> launchersList, CommandContext<ServerCommandSource> context)
         {
             if(!areLauncherIdValid(launchersList))
             {
-                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText("\nOne or more parameters are not correct.\n" +
+                context.getSource().sendFeedback((new LiteralText("\nOne or more parameters are not correct.\n" +
                       "Usage:\n" +
                       "l: Launcher\n" +
                       "p: Powered Launcher\n" +
-                      "e: Extreme Launcher\n"));
+                      "e: Extreme Launcher\n")), false);
                 launchersList.clear();
                 return 0;
             }
@@ -154,7 +154,7 @@ public abstract class LMCommands
                 printString += launchersList.get(i) + "\n";
             }
             printString += "Force: " + getForce(launchersList);
-            MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(printString));
+            context.getSource().sendFeedback(new LiteralText(printString), false);
             launchersList.clear();
             return 1;
         }

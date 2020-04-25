@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.launchers.mod.entity_renderer.ExtremeLauncherBlockEntityRenderer;
 import net.launchers.mod.entity_renderer.LauncherBlockEntityRenderer;
 import net.launchers.mod.entity_renderer.PoweredLauncherBlockEntityRenderer;
+import net.launchers.mod.initializer.LMCommands;
 import net.launchers.mod.network.packet.CustomPacket;
 import net.launchers.mod.network.packet.UnboundedPlayerVelocityS2CPacket;
 
