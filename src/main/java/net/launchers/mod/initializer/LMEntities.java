@@ -12,7 +12,7 @@ import net.minecraft.util.registry.Registry;
 
 import static net.launchers.mod.initializer.LMBlock.*;
 
-public class LMEntities
+public final class LMEntities
 {
     public static BlockEntityType<LauncherBlockEntity> LAUNCHER_BLOCK_ENTITY;
     public static BlockEntityType<PoweredLauncherBlockEntity> PW_LAUNCHER_BLOCK_ENTITY;

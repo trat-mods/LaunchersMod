@@ -6,13 +6,12 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.launchers.mod.entity_renderer.ExtremeLauncherBlockEntityRenderer;
 import net.launchers.mod.entity_renderer.LauncherBlockEntityRenderer;
 import net.launchers.mod.entity_renderer.PoweredLauncherBlockEntityRenderer;
-import net.launchers.mod.initializer.LMCommands;
 import net.launchers.mod.network.packet.CustomPacket;
 import net.launchers.mod.network.packet.UnboundedPlayerVelocityS2CPacket;
 
 import static net.launchers.mod.initializer.LMEntities.*;
 
-public class ClientLoader implements ClientModInitializer
+public final class ClientLoader implements ClientModInitializer
 {
     @Override
     public void onInitializeClient()

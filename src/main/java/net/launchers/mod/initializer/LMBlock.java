@@ -5,7 +5,7 @@ import net.launchers.mod.block.LauncherBlock;
 import net.launchers.mod.block.PoweredLauncherBlock;
 import net.minecraft.util.registry.Registry;
 
-public class LMBlock
+public final class LMBlock
 {
     public static final LauncherBlock LAUNCHER_BLOCK = new LauncherBlock();
     public static final PoweredLauncherBlock POWERED_LAUNCHER_BLOCK = new PoweredLauncherBlock();

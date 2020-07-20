@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.word;
 
-public abstract class LMCommands
+public final class LMCommands
 {
     private static final String LAUNCHER_ID = "l";
     private static final String P_LAUNCHER_ID = "p";
@@ -32,7 +32,7 @@ public abstract class LMCommands
         });
     }
     
-    private abstract static class Lcalc
+    private final static class Lcalc
     {
         public static void define(CommandDispatcher<ServerCommandSource> dispatcher)
         {

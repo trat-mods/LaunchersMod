@@ -3,7 +3,7 @@ package net.launchers.mod.loader;
 import net.fabricmc.api.ModInitializer;
 import net.launchers.mod.initializer.*;
 
-public class LMLoader implements ModInitializer
+public final class LMLoader implements ModInitializer
 {
     public static final String MOD_ID = "launchersmod";
     

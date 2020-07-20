@@ -10,7 +10,7 @@ import net.minecraft.util.registry.Registry;
 
 import static net.launchers.mod.initializer.LMBlock.*;
 
-public class LMItem
+public final class LMItem
 {
     public static void initialize()
     {
