@@ -4,17 +4,16 @@ import net.launchers.mod.entity.abstraction.AbstractLauncherBlockEntity;
 import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
 import net.launchers.mod.network.LaunchersNetworkHandler;
-import net.launchers.mod.network.packet.UnboundedPlayerVelocityS2CPacket;
+import net.launchers.mod.network.packet.UnboundedEntityVelocityS2CPacket;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
@@ -30,7 +29,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -56,14 +54,13 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     public AbstractLauncherBlock(Settings settings)
     {
         super(settings);
-        this.setDefaultState((BlockState) ((BlockState) ((BlockState) this.stateManager.getDefaultState()).with(MODELS, 0).with(TRIGGERED, false)));
+        this.setDefaultState(this.stateManager.getDefaultState().with(MODELS, 0).with(TRIGGERED, false));
     }
     
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext ePos)
     {
-        AbstractLauncherBlockEntity entity = (AbstractLauncherBlockEntity) view.getBlockEntity(pos);
-        return entity != null ? entity.getCollisionShape() : Block.createCuboidShape(0F, 0F, 0F, 16F, 16F, 16F);
+        return Block.createCuboidShape(0F, 0F, 0F, 16F, 16F, 16F);
     }
     
     @Override
@@ -77,7 +74,7 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
         builder.add(MODELS, TRIGGERED);
     }
     
-    public void launchEntities(World world, BlockPos pos, List<LivingEntity> entities)
+    public void launchEntities(World world, BlockPos pos, List<? extends Entity> entities)
     {
         if(!world.isClient)
         {
@@ -98,11 +95,11 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
                 currentIndex++;
             }
             force *= multiplier;
-            for(LivingEntity entity : entities)
+            for(Entity entity : entities)
             {
                 System.out.println(force);
                 entity.setVelocity(new Vec3d(0F, force, 0F));
-                UnboundedPlayerVelocityS2CPacket packet = new UnboundedPlayerVelocityS2CPacket(entity.getEntityId(), 0F, force, 0F);
+                UnboundedEntityVelocityS2CPacket packet = new UnboundedEntityVelocityS2CPacket(entity.getEntityId(), 0F, force, 0F);
                 LaunchersNetworkHandler.sendToAll(packet, world.getServer().getPlayerManager());
             }
         }
@@ -131,7 +128,9 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
     {
         if(canLaunch(world, pos))
         {
-            List<LivingEntity> livingEntities = world.getEntities(LivingEntity.class, (new Box(pos)).expand(0D, 2D, 0D), EntityPredicates.EXCEPT_SPECTATOR);
+            List<Entity> livingEntities = world.getNonSpectatingEntities(LivingEntity.class, (new Box(pos)).expand(0.15D, 1.25D, 0.15D));
+            List<Entity> entities = world.getNonSpectatingEntities(ItemEntity.class, (new Box(pos)).expand(0.15D, 1.25D, 0.15D));
+            livingEntities.addAll(entities);
             launchEntities(world, pos, livingEntities);
             playLaunchSound(world, pos);
             ((AbstractLauncherBlockEntity) world.getBlockEntity(pos)).startExtending();
@@ -157,21 +156,12 @@ public abstract class AbstractLauncherBlock extends Block implements BlockEntity
         return 2;
     }
     
-    public void launchSingleEntity(World world, BlockPos pos, LivingEntity entity)
-    {
-        if(canLaunch(world, pos))
-        {
-            List<LivingEntity> list = new ArrayList<>();
-            list.add(entity);
-            launchEntities(world, pos, list);
-            ((AbstractLauncherBlockEntity) world.getBlockEntity(pos)).startExtending();
-        }
-    }
     
     public boolean canLaunch(World world, BlockPos pos)
     {
         AbstractLauncherBlockEntity launcherBlockEntity = (AbstractLauncherBlockEntity) world.getBlockEntity(pos);
-        return world.getBlockState(pos.up()).getBlock() == Blocks.AIR && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED;
+        BlockPos up = pos.up();
+        return !world.getBlockState(up).isSimpleFullBlock(world, up) && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED;
     }
     
     @Override

@@ -7,28 +7,28 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.Vec3d;
 
-public class UnboundedPlayerVelocityS2CPacket extends CustomPacket
+public class UnboundedEntityVelocityS2CPacket extends CustomPacket
 {
     private final Vec3d velocity;
     private final int entityId;
     
-    public UnboundedPlayerVelocityS2CPacket(int entityId, Vec3d velocity)
+    public UnboundedEntityVelocityS2CPacket(int entityId, Vec3d velocity)
     {
         this.velocity = velocity;
         this.entityId = entityId;
     }
     
-    public UnboundedPlayerVelocityS2CPacket(int entityId, float x, float y, float z)
+    public UnboundedEntityVelocityS2CPacket(int entityId, float x, float y, float z)
     {
         this(entityId, new Vec3d(x, y, z));
     }
     
-    public UnboundedPlayerVelocityS2CPacket(Entity entity, Vec3d velocity)
+    public UnboundedEntityVelocityS2CPacket(Entity entity, Vec3d velocity)
     {
         this(entity.getEntityId(), velocity);
     }
     
-    public UnboundedPlayerVelocityS2CPacket(Entity entity, float x, float y, float z)
+    public UnboundedEntityVelocityS2CPacket(Entity entity, float x, float y, float z)
     {
         this(entity.getEntityId(), new Vec3d(x, y, z));
     }
@@ -51,10 +51,10 @@ public class UnboundedPlayerVelocityS2CPacket extends CustomPacket
         buf.writeDouble(velocity.getZ());
     }
     
-    public static UnboundedPlayerVelocityS2CPacket read(PacketByteBuf buf)
+    public static UnboundedEntityVelocityS2CPacket read(PacketByteBuf buf)
     {
         int entityId = buf.readVarInt();
         Vec3d velocity = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-        return new UnboundedPlayerVelocityS2CPacket(entityId, velocity);
+        return new UnboundedEntityVelocityS2CPacket(entityId, velocity);
     }
 }
