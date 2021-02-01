@@ -8,10 +8,10 @@
         "t_r_a_t"
     ],
     "contact": {
-        "homepage": "https://github.com/tratteo/LaunchersMod/wiki",
-        "sources": "https://github.com/tratteo/LaunchersMod"
+        "homepage": "https://github.com/tratteo/LaunchersMod-1.15/wiki",
+        "sources": "https://github.com/tratteo/LaunchersMod-1.15",
+        "issues": "https://github.com/tratteo/LaunchersMod-1.15/issues"
     },
-    "license": "CC0-1.0",
     "icon": "assets/launchersmod/icon.png",
     "environment": "*",
     "entrypoints": {
