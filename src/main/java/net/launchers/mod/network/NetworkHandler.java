@@ -6,7 +6,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.List;
 
-public class LaunchersNetworkHandler
+public class NetworkHandler
 {
     public static void sendToAll(CustomPacket packet, PlayerManager manager)
     {

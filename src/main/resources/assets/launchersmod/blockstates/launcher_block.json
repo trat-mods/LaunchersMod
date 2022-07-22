@@ -1,7 +1,23 @@
 {
     "variants": {
-        "models=0": {"model": "launchersmod:block/launcher_block"},
-        "models=1": {"model": "launchersmod:block/launcher_block_head"},
-        "models=2": {"model": "launchersmod:block/launcher_block_head_short"}
+        "facing=down,models=0": {"model": "launchersmod:block/launcher_block", "x": 180},
+        "facing=up,models=0": {"model": "launchersmod:block/launcher_block"},
+        "facing=north,models=0": {"model": "launchersmod:block/launcher_block", "x": 90},
+        "facing=south,models=0": {"model": "launchersmod:block/launcher_block", "x": 90, "y": 180},
+        "facing=west,models=0": {"model": "launchersmod:block/launcher_block", "x": 90, "y": 270},
+        "facing=east,models=0": {"model": "launchersmod:block/launcher_block", "x": 90, "y": 90},
+        "facing=down,models=1": {"model": "launchersmod:block/launcher_block_head", "x": 180},
+        "facing=up,models=1": {"model": "launchersmod:block/launcher_block_head"},
+        "facing=north,models=1": {"model": "launchersmod:block/launcher_block_head", "x": 90},
+        "facing=south,models=1": {"model": "launchersmod:block/launcher_block_head", "x": 90, "y": 180},
+        "facing=west,models=1": {"model": "launchersmod:block/launcher_block_head", "x": 90, "y": 270},
+        "facing=east,models=1": {"model": "launchersmod:block/launcher_block_head", "x": 90, "y": 90},
+        "facing=down,models=2": {"model": "launchersmod:block/launcher_block_head_short", "x": 180},
+        "facing=up,models=2": {"model": "launchersmod:block/launcher_block_head_short"},
+        "facing=north,models=2": {"model": "launchersmod:block/launcher_block_head_short", "x": 90},
+        "facing=south,models=2": {"model": "launchersmod:block/launcher_block_head_short", "x": 90, "y": 180},
+        "facing=west,models=2": {"model": "launchersmod:block/launcher_block_head_short", "x": 90, "y": 270},
+        "facing=east,models=2": {"model": "launchersmod:block/launcher_block_head_short", "x": 90, "y": 90}
     }
 }
+

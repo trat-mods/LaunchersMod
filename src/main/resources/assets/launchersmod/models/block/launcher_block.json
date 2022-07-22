@@ -1,24 +1,9 @@
 {
-    "parent": "block/block",
+    "parent": "launchersmod:template/template_launcher_block",
     "textures": {
-        "up": "launchersmod:block/launcher_block_top",
-        "particle": "#up",
-        "down": "launchersmod:block/launcher_block_bottom",
-        "side": "launchersmod:block/launcher_block_side"
-    },
-    "elements": [
-        {
-            "from": [0, 0, 0],
-            "to": [16, 12, 16],
-            "faces": {
-                "down": {"texture": "#down", "cullface": "down"},
-                "up": {"texture": "#up"},
-                "north": {"texture": "#side", "cullface": "north"},
-                "south": {"texture": "#side", "cullface": "south"},
-                "west": {"texture": "#side", "cullface": "west"},
-                "east": {"texture": "#side", "cullface": "east"}
-            }
-        }
-    ]
+        "bottom": "launchersmod:block/launcher_block_bottom",
+        "side": "launchersmod:block/launcher_block_side",
+        "top": "launchersmod:block/launcher_block_top"
+    }
 }
 

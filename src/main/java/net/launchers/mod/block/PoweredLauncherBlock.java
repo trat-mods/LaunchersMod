@@ -1,39 +1,47 @@
 package net.launchers.mod.block;
 
-import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.launchers.mod.block.abstraction.AbstractLauncherBlock;
 import net.launchers.mod.entity.PoweredLauncherBlockEntity;
+import net.launchers.mod.initializer.LMEntities;
 import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.BlockView;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class PoweredLauncherBlock extends AbstractLauncherBlock
-{
+public class PoweredLauncherBlock extends AbstractLauncherBlock {
     public static final Identifier ID = new Identifier(LMLoader.MOD_ID, "powered_launcher_block");
-    
-    public PoweredLauncherBlock()
-    {
-        super(FabricBlockSettings.of(Material.METAL).breakByHand((true)).strength(1F, 0.85F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds().build());
+
+    public PoweredLauncherBlock() {
+        super(FabricBlockSettings.of(Material.METAL).strength(1F, 0.85F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());
         baseMultiplier = 2.125F;
         stackPowerPercentage = 0.2975F;
         stackMultiplier = baseMultiplier * stackPowerPercentage;
     }
-    
+
     @Override
-    public PlaySoundS2CPacket createLaunchSoundPacket(double x, double y, double z)
-    {
-        return new PlaySoundS2CPacket(LMSounds.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, x, y, z, 0.9F, 0.875F);
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return checkType(type, LMEntities.PW_LAUNCHER_BLOCK_ENTITY, PoweredLauncherBlockEntity::tick);
     }
-    
+
     @Override
-    public BlockEntity createBlockEntity(BlockView view)
-    {
-        return new PoweredLauncherBlockEntity();
+    public PlaySoundS2CPacket createLaunchSoundPacket(double x, double y, double z) {
+        return new PlaySoundS2CPacket(LMSounds.LAUNCHER_BLOCK_LAUNCH_SOUNDEVENT, SoundCategory.BLOCKS, x, y, z, 0.9F, 0.875F, 0);
     }
+
+    @Override
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new PoweredLauncherBlockEntity(pos, state);
+    }
+
 }

@@ -2,183 +2,160 @@ package net.launchers.mod.entity.abstraction;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Tickable;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractLauncherBlockEntity extends BlockEntity implements Tickable, BlockEntityClientSerializable
-{
+public abstract class AbstractLauncherBlockEntity extends BlockEntity {
     private final VoxelShape RETRACTED_BASE_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     private final VoxelShape EXTENDED_BASE_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D);
     private final VoxelShape SHORT_EXTENDER_SHAPE = Block.createCuboidShape(6.0D, 2.0D, 6.0D, 10.0D, 10.0D, 10.0D);
     private final VoxelShape LONG_EXTENDER_SHAPE = Block.createCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 16.0D, 10.0D);
     private final VoxelShape HEAD_SHAPE = Block.createCuboidShape(0.0D, 12.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    
-    public enum LauncherState
-    {EXTENDED, RETRACTED, MOVING}
-    
+    private final float extensionStride = 1F; // 1/stride ticks per move
+    private final float retractingStride = extensionStride / 4;
+    private final int retractingDelay = 2;
     public LauncherState[] states;
-    private float extensionStride = 1F; // 1/stride ticks per move
-    private float retractingStride = extensionStride / 4;
-    private int retractingDelay = 2;
-    
+    public LauncherState launcherState;
+    protected int currentTick = 0;
     private float maxExtendCoefficient;
     private float progress;
     private float lastProgress;
     private boolean extending = true; // true if its extending, false if retracting
-    
-    protected int currentTick = 0;
-    
-    public LauncherState launcherState;
-    
-    public AbstractLauncherBlockEntity(BlockEntityType<?> type)
-    {
-        super(type);
+
+    public AbstractLauncherBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
         states = LauncherState.values();
         launcherState = LauncherState.RETRACTED;
     }
-    
-    public boolean isRetracted()
-    {
-        return launcherState == LauncherState.RETRACTED;
-    }
-    
-    public VoxelShape getCollisionShape()
-    {
-        VoxelShape baseShape = null;
-        if(isRetracted())
-        {
-            baseShape = RETRACTED_BASE_SHAPE;
-            return baseShape;
-        }
-        else
-        {
-            baseShape = EXTENDED_BASE_SHAPE;
-            VoxelShape extenderShape = null;
-            if(progress < 0.35)
-            {
-                extenderShape = VoxelShapes.union(baseShape, SHORT_EXTENDER_SHAPE.offset(0, progress - 0.25, 0));
-            }
-            else
-            {
-                extenderShape = VoxelShapes.union(baseShape, LONG_EXTENDER_SHAPE.offset(0, progress - 0.25F, 0));
-            }
-            return VoxelShapes.union(extenderShape, HEAD_SHAPE.offset(0, progress, 0));
-        }
-    }
-    
-    @Environment(EnvType.CLIENT)
-    public float getDeltaProgress(float tickDelta)
-    {
-        if(tickDelta > 1.0F)
-        {
-            tickDelta = 1.0F;
-        }
-        return MathHelper.lerp(tickDelta, this.lastProgress, this.progress);
-    }
-    
-    @Override public void tick()
-    {
-        switch(launcherState)
-        {
+
+    public static void tick(World world, BlockPos pos, BlockState state, AbstractLauncherBlockEntity be) {
+        switch (be.launcherState) {
             case EXTENDED:
-                currentTick++;
-                if(currentTick >= retractingDelay)
-                {
-                    currentTick = 0;
-                    startRetracting();
+                be.currentTick++;
+                if (be.currentTick >= be.retractingDelay) {
+                    be.currentTick = 0;
+                    be.startRetracting();
                 }
                 break;
             case RETRACTED:
                 break;
             case MOVING:
-                this.lastProgress = this.progress;
-                if(extending)
-                {
-                    if(this.lastProgress >= 1.0F)
-                    {
-                        launcherState = LauncherState.EXTENDED;
-                        this.lastProgress = 1F;
+                be.lastProgress = be.progress;
+                if (be.extending) {
+                    if (be.lastProgress >= 1.0F) {
+                        be.launcherState = LauncherState.EXTENDED;
+                        be.lastProgress = 1F;
                     }
-                    else
-                    {
-                        this.progress += extensionStride;
-                        if(this.progress >= 1.0F)
-                        {
-                            this.progress = 1.0F;
+                    else {
+                        be.progress += be.extensionStride;
+                        if (be.progress >= 1.0F) {
+                            be.progress = 1.0F;
                         }
                     }
                 }
-                else
-                {
-                    if(this.lastProgress <= 0F)
-                    {
-                        launcherState = LauncherState.RETRACTED;
-                        lastProgress = 0F;
+                else {
+                    if (be.lastProgress <= 0F) {
+                        be.launcherState = LauncherState.RETRACTED;
+                        be.lastProgress = 0F;
                     }
-                    else
-                    {
-                        this.progress -= retractingStride;
-                        if(this.progress <= 0F)
-                        {
-                            this.progress = 0F;
+                    else {
+                        be.progress -= be.retractingStride;
+                        if (be.progress <= 0F) {
+                            be.progress = 0F;
                         }
                     }
                 }
                 break;
         }
     }
-    
-    public void startExtending()
-    {
+
+    public boolean isRetracted() {
+        return launcherState == LauncherState.RETRACTED;
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
+    }
+
+    public VoxelShape getCollisionShape() {
+        VoxelShape baseShape = null;
+        if (isRetracted()) {
+            baseShape = RETRACTED_BASE_SHAPE;
+            return baseShape;
+        }
+        else {
+            baseShape = EXTENDED_BASE_SHAPE;
+            VoxelShape extenderShape = null;
+            if (progress < 0.35) {
+                extenderShape = VoxelShapes.union(baseShape, SHORT_EXTENDER_SHAPE.offset(0, progress - 0.25, 0));
+            }
+            else {
+                extenderShape = VoxelShapes.union(baseShape, LONG_EXTENDER_SHAPE.offset(0, progress - 0.25F, 0));
+            }
+            return VoxelShapes.union(extenderShape, HEAD_SHAPE.offset(0, progress, 0));
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public float getDeltaProgress(float tickDelta) {
+        if (tickDelta > 1.0F) {
+            tickDelta = 1.0F;
+        }
+        return MathHelper.lerp(tickDelta, this.lastProgress, this.progress);
+    }
+
+    public void startExtending() {
         extending = true;
         launcherState = LauncherState.MOVING;
         progress = 0;
-        sync();
+        world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), Block.NOTIFY_LISTENERS);
     }
-    
-    public void startRetracting()
-    {
+
+    public void startRetracting() {
         extending = false;
         launcherState = LauncherState.MOVING;
-        if(!world.isClient)
-        {
-            sync();
-        }
+        world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), Block.NOTIFY_LISTENERS);
     }
-    
-    public void fromTag(CompoundTag tag)
-    {
-        super.fromTag(tag);
-        this.currentTick = tag.getInt("currentTick");
-        this.progress = tag.getFloat("progress");
+
+    @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        this.currentTick = nbt.getInt("currentTick");
+        this.progress = nbt.getFloat("progress");
         this.lastProgress = this.progress;
-        this.extending = tag.getBoolean("extending");
-        this.launcherState = states[tag.getInt("launcherState")];
+        this.extending = nbt.getBoolean("extending");
+        this.launcherState = states[nbt.getInt("launcherState")];
     }
-    
-    public CompoundTag toTag(CompoundTag tag)
-    {
-        tag.putInt("currentTick", currentTick);
-        tag.putFloat("progress", this.lastProgress);
-        tag.putBoolean("extending", this.extending);
-        tag.putInt("launcherState", launcherState.ordinal());
-        return super.toTag(tag);
+
+
+    @Override
+    public void writeNbt(NbtCompound nbt) {
+        nbt.putInt("currentTick", currentTick);
+        nbt.putFloat("progress", this.lastProgress);
+        nbt.putBoolean("extending", this.extending);
+        nbt.putInt("launcherState", launcherState.ordinal());
+        super.writeNbt(nbt);
     }
-    
-    @Override public void fromClientTag(CompoundTag compoundTag)
-    {
-        fromTag(compoundTag);
-    }
-    
-    @Override public CompoundTag toClientTag(CompoundTag compoundTag)
-    {
-        return toTag(compoundTag);
-    }
+
+
+    public enum LauncherState {EXTENDED, RETRACTED, MOVING}
 }

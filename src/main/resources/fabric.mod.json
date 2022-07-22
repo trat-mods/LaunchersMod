@@ -1,35 +1,36 @@
 {
-    "schemaVersion": 1,
-    "id": "launchersmod",
-    "version": "${version}",
-    "name": "Launchers",
-    "description": "Introduces three different Launcher Blocks. Open the wiki for more detail",
-    "authors": [
-        "t_r_a_t"
+  "schemaVersion": 1,
+  "id": "launchersmod",
+  "version": "${version}",
+  "name": "Launchers",
+  "description": "Introduces three different Launcher Blocks. Open the wiki for more detail",
+  "authors": [
+    "t_r_a_t"
+  ],
+  "contact": {
+    "homepage": "https://github.com/tratteo/LaunchersMod-1.15/wiki",
+    "sources": "https://github.com/tratteo/LaunchersMod-1.16",
+    "issues": "https://github.com/tratteo/LaunchersMod-1.16/issues"
+  },
+  "icon": "assets/launchersmod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.launchers.mod.loader.LMLoader"
     ],
-    "contact": {
-        "homepage": "https://github.com/tratteo/LaunchersMod-1.15/wiki",
-        "sources": "https://github.com/tratteo/LaunchersMod-1.15",
-        "issues": "https://github.com/tratteo/LaunchersMod-1.15/issues"
-    },
-    "icon": "assets/launchersmod/icon.png",
-    "environment": "*",
-    "entrypoints": {
-        "main": [
-            "net.launchers.mod.loader.LMLoader"
-        ],
-        "client": [
-            "net.launchers.mod.loader.ClientLoader"
-        ]
-    },
-    "mixins": [
-    ],
-    "depends": {
-        "fabricloader": ">=0.7.2",
-        "fabric": "*",
-        "minecraft": "1.15.x"
-    },
-    "suggests": {
-        "flamingo": "*"
-    }
+    "client": [
+      "net.launchers.mod.loader.ClientLoader"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
 }

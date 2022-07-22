@@ -1,24 +1,10 @@
 {
-    "parent": "block/block",
+    "parent": "launchersmod:template/template_launcher_block",
     "textures": {
-        "up": "launchersmod:block/powered_launcher_block_top",
-        "particle": "#up",
-        "down": "launchersmod:block/powered_launcher_block_bottom",
+        "bottom": "launchersmod:block/powered_launcher_block_bottom",
+        "top": "launchersmod:block/powered_launcher_block_top",
         "side": "launchersmod:block/powered_launcher_block_side"
-    },
-    "elements": [
-        {
-            "from": [0, 0, 0],
-            "to": [16, 12, 16],
-            "faces": {
-                "down": {"texture": "#down"},
-                "up": {"texture": "#up"},
-                "north": {"texture": "#side"},
-                "south": {"texture": "#side"},
-                "west": {"texture": "#side"},
-                "east": {"texture": "#side"}
-            }
-        }
-    ]
+    }
 }
+
 

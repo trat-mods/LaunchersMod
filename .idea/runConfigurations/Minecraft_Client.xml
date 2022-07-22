@@ -2,7 +2,8 @@
   <configuration default="false" name="Minecraft Client" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="net.fabricmc.devlaunchinjector.Main" />
     <module name="LaunchersMod-1.15.main" />
-    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=&quot;C:\Users\Matteo\Documents\Projects\Mods\LaunchersMod-1.15\.gradle\loom-cache\launch.cfg&quot; -Dfabric.dli.env=client -Dfabric.dli.main=net.fabricmc.loader.launch.knot.KnotClient" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=C:\Users\bltmt\Documents\Progetti\TrattMods\LaunchersMod-1.15\.gradle\loom-cache\launch.cfg -Dfabric.dli.env=client -Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run/" />
     <method v="2">
       <option name="Make" enabled="true" />

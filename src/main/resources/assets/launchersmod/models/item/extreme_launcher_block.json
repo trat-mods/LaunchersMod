@@ -1,5 +1,5 @@
 {
-    "parent": "block/block",
+    "parent": "block/orientable",
     "textures": {
         "head": "launchersmod:block/extreme_launcher_block_head_top",
         "side_head": "launchersmod:block/extreme_launcher_block_head_side",
