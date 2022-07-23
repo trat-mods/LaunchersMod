@@ -8,9 +8,9 @@
     "t_r_a_t"
   ],
   "contact": {
-    "homepage": "https://github.com/tratteo/LaunchersMod-1.15/wiki",
-    "sources": "https://github.com/tratteo/LaunchersMod-1.16",
-    "issues": "https://github.com/tratteo/LaunchersMod-1.16/issues"
+    "homepage": "https://github.com/tratteo/LaunchersMod/wiki",
+    "sources": "https://github.com/tratteo/LaunchersMod",
+    "issues": "https://github.com/tratteo/LaunchersMod/issues"
   },
   "icon": "assets/launchersmod/icon.png",
   "environment": "*",
