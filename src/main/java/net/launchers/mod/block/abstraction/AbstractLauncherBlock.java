@@ -11,7 +11,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.server.world.ServerWorld;
@@ -69,7 +68,7 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
 
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        entity.handleFallDamage(fallDistance, 0.0F, DamageSource.FALL);
+        entity.handleFallDamage(fallDistance, 0.0F, world.getDamageSources().fall());
     }
 
     @Override
