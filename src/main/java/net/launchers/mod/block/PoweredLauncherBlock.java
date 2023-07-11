@@ -7,7 +7,6 @@ import net.launchers.mod.initializer.LMEntities;
 import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -23,7 +22,7 @@ public class PoweredLauncherBlock extends AbstractLauncherBlock {
     public static final Identifier ID = new Identifier(LMLoader.MOD_ID, "powered_launcher_block");
 
     public PoweredLauncherBlock() {
-        super(FabricBlockSettings.of(Material.METAL).strength(1F, 0.85F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());
+        super(FabricBlockSettings.create().strength(1F, 0.85F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());
         baseMultiplier = 2.125F;
         stackPowerPercentage = 0.2975F;
         stackMultiplier = baseMultiplier * stackPowerPercentage;

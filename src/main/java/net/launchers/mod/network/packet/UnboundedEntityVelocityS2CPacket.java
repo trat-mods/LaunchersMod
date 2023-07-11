@@ -48,7 +48,7 @@ public class UnboundedEntityVelocityS2CPacket extends CustomPacket {
 
     public void onReceive(MinecraftClient ctx) {
         ctx.execute(() -> {
-            Entity targetEntity = ctx.player.world.getEntityById(entityId);
+            Entity targetEntity = ctx.player.getWorld().getEntityById(entityId);
             targetEntity.setVelocity(velocity);
         });
     }

@@ -8,7 +8,6 @@ import net.launchers.mod.initializer.LMEntities;
 import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -24,7 +23,7 @@ public class LauncherBlock extends AbstractLauncherBlock {
     public static final Identifier ID = new Identifier(LMLoader.MOD_ID, "launcher_block");
 
     public LauncherBlock() {
-        super(FabricBlockSettings.of(Material.METAL).strength(0.8F, 0.5F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());
+        super(FabricBlockSettings.create().strength(0.8F, 0.5F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());
         baseMultiplier = 1.25F;
         stackPowerPercentage = 0.335F;
         stackMultiplier = baseMultiplier * stackPowerPercentage;

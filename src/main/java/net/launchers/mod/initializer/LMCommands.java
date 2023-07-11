@@ -97,7 +97,7 @@ public final class LMCommands {
 
         private static int checkIdsAndPrintForce(ArrayList<String> launchersList, CommandContext<ServerCommandSource> context) {
             if (!areLauncherIdValid(launchersList)) {
-                context.getSource().sendFeedback(Text.of("\nOne or more parameters are not correct.\n" + "Usage:\n" + "l: Launcher\n" + "p: Powered Launcher\n" + "e: Extreme Launcher\n"), false);
+                context.getSource().sendFeedback(() -> Text.of("\nOne or more parameters are not correct.\n" + "Usage:\n" + "l: Launcher\n" + "p: Powered Launcher\n" + "e: Extreme Launcher\n"), false);
                 launchersList.clear();
                 return 0;
             }
@@ -108,7 +108,7 @@ public final class LMCommands {
             float force = getForce(launchersList);
             printString.append("Force: ").append(force);
             printString.append(", height in blocks (approx): ").append(getHeightFromForce(force));
-            context.getSource().sendFeedback(Text.of(printString.toString()), false);
+            context.getSource().sendFeedback(() -> Text.of(printString.toString()), false);
             launchersList.clear();
             return 1;
         }
