@@ -17,7 +17,7 @@
         }
     },
     "result": {
-        "item": "launchersmod:extreme_launcher_block",
+        "id": "launchersmod:extreme_launcher_block",
         "count": 1
     }
 }

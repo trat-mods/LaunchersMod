@@ -47,11 +47,11 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
         FACING = FacingBlock.FACING;
     }
 
+    private final float launchForce = 1F;
+    private final int maxStackable = 4;
     public float stackMultiplier;
     public float baseMultiplier;
     protected float stackPowerPercentage;
-    private float launchForce = 1F;
-    private int maxStackable = 4;
 
     //DropperBlock
 

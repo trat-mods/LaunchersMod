@@ -17,7 +17,7 @@
         }
     },
     "result": {
-        "item": "launchersmod:powered_launcher_block",
+        "id": "launchersmod:powered_launcher_block",
         "count": 1
     }
 }

@@ -20,7 +20,7 @@
         }
     },
     "result": {
-        "item": "launchersmod:launcher_block",
+        "id": "launchersmod:launcher_block",
         "count": 1
     }
 }
