@@ -4,7 +4,7 @@ import net.launchers.mod.entity.abstraction.AbstractLauncherBlockEntity;
 import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
 import net.launchers.mod.network.NetworkHandler;
-import net.launchers.mod.network.packet.UnboundedEntityVelocityS2CPacket;
+import net.launchers.mod.network.packet.UnboundedEntityVelocityPayload;
 import net.launchers.mod.utils.MathUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -104,7 +104,7 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
                 Vec3d vectorForce = MathUtils.fromDirection(world.getBlockState(pos).get(AbstractLauncherBlock.FACING));
                 Vec3d velocity = vectorForce.multiply(force).add(initialVelocity);
                 entity.setVelocity(velocity);
-                UnboundedEntityVelocityS2CPacket packet = new UnboundedEntityVelocityS2CPacket(entity.getId(), velocity);
+                UnboundedEntityVelocityPayload packet = new UnboundedEntityVelocityPayload(velocity, entity.getId());
                 NetworkHandler.sendToAll(packet, world.getServer().getPlayerManager());
             }
         }

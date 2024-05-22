@@ -10,6 +10,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
@@ -92,8 +93,8 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity {
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return createNbt(registryLookup);
     }
 
     public VoxelShape getCollisionShape() {
@@ -137,8 +138,8 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         this.currentTick = nbt.getInt("currentTick");
         this.progress = nbt.getFloat("progress");
         this.lastProgress = this.progress;
@@ -146,14 +147,13 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity {
         this.launcherState = states[nbt.getInt("launcherState")];
     }
 
-
     @Override
-    public void writeNbt(NbtCompound nbt) {
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         nbt.putInt("currentTick", currentTick);
         nbt.putFloat("progress", this.lastProgress);
         nbt.putBoolean("extending", this.extending);
         nbt.putInt("launcherState", launcherState.ordinal());
-        super.writeNbt(nbt);
+        super.writeNbt(nbt, registryLookup);
     }
 
 

@@ -1,6 +1,7 @@
 package net.launchers.mod.block;
 
 
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.launchers.mod.block.abstraction.AbstractLauncherBlock;
 import net.launchers.mod.entity.LauncherBlockEntity;
@@ -8,6 +9,7 @@ import net.launchers.mod.initializer.LMEntities;
 import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -31,7 +33,7 @@ public class LauncherBlock extends AbstractLauncherBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, LMEntities.LAUNCHER_BLOCK_ENTITY, LauncherBlockEntity::tick);
+        return validateTicker(type, LMEntities.LAUNCHER_BLOCK_ENTITY, LauncherBlockEntity::tick);
     }
 
     @Override
@@ -44,4 +46,8 @@ public class LauncherBlock extends AbstractLauncherBlock {
         return new LauncherBlockEntity(pos, state);
     }
 
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return null;
+    }
 }
