@@ -5,12 +5,12 @@
   "name": "Launchers",
   "description": "Introduces three different Launcher Blocks. Open the wiki for more detail",
   "authors": [
-    "t_r_a_t"
+    "trat"
   ],
   "contact": {
-    "homepage": "https://github.com/tratteo/LaunchersMod/wiki",
-    "sources": "https://github.com/tratteo/LaunchersMod",
-    "issues": "https://github.com/tratteo/LaunchersMod/issues"
+    "homepage": "https://github.com/trat-mods/LaunchersMod/wiki",
+    "sources": "https://github.com/trat-mods/LaunchersMod",
+    "issues": "https://github.com/trat-mods/LaunchersMod/issues"
   },
   "icon": "assets/launchersmod/icon.png",
   "environment": "*",
@@ -22,8 +22,7 @@
       "net.launchers.mod.loader.ClientLoader"
     ]
   },
-  "mixins": [
-  ],
+  "mixins": [],
   "depends": {
     "fabricloader": ">=0.15.10",
     "minecraft": "~1.20.6",
