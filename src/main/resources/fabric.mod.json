@@ -12,6 +12,7 @@
     "sources": "https://github.com/trat-mods/LaunchersMod",
     "issues": "https://github.com/trat-mods/LaunchersMod/issues"
   },
+  "license": "GPL-2.0",
   "icon": "assets/launchersmod/icon.png",
   "environment": "*",
   "entrypoints": {
