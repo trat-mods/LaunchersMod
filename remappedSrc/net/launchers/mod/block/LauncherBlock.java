@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class LauncherBlock extends AbstractLauncherBlock {
-    public static final Identifier ID = Identifier.of(LMLoader.MOD_ID, "launcher_block");
+    public static final Identifier ID = new Identifier(LMLoader.MOD_ID, "launcher_block");
 
     public LauncherBlock() {
         super(FabricBlockSettings.create().strength(0.8F, 0.5F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());

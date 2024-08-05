@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class AbstractLauncherBlock extends BlockWithEntity {
-    public static final Identifier LAUNCH_SOUND = Identifier.of(LMLoader.MOD_ID, "launcher_block_launch");
+    public static final Identifier LAUNCH_SOUND = new Identifier(LMLoader.MOD_ID, "launcher_block_launch");
     public static final BooleanProperty TRIGGERED;
     public static final IntProperty MODELS = IntProperty.of("models", 0, 2);
     public static final DirectionProperty FACING;

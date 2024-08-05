@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ExtremeLauncherBlock extends AbstractLauncherBlock {
-    public static final Identifier ID = new Identifier(LMLoader.MOD_ID, "extreme_launcher_block");
+    public static final Identifier ID = Identifier.of(LMLoader.MOD_ID, "extreme_launcher_block");
 
     public ExtremeLauncherBlock() {
         super(FabricBlockSettings.create().strength(2F, 1.8F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());

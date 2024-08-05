@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class PoweredLauncherBlock extends AbstractLauncherBlock {
-    public static final Identifier ID = new Identifier(LMLoader.MOD_ID, "powered_launcher_block");
+    public static final Identifier ID = Identifier.of(LMLoader.MOD_ID, "powered_launcher_block");
 
     public PoweredLauncherBlock() {
         super(FabricBlockSettings.create().strength(1F, 0.85F).sounds(BlockSoundGroup.METAL).nonOpaque().dynamicBounds());

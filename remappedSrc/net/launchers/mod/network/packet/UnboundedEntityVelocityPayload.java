@@ -12,7 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public record UnboundedEntityVelocityPayload(Vec3d velocity, int entityId) implements CustomPayload {
-    public static final CustomPayload.Id<UnboundedEntityVelocityPayload> ID = CustomPayload.id("lmpacket");
+    public static final CustomPayload.Id<UnboundedEntityVelocityPayload> ID = CustomPayload.id("lm:packet");
     public static final PacketCodec<PacketByteBuf, UnboundedEntityVelocityPayload> CODEC = PacketCodec.of(UnboundedEntityVelocityPayload::write, UnboundedEntityVelocityPayload::read);
 
     public static UnboundedEntityVelocityPayload read(PacketByteBuf buf) {
