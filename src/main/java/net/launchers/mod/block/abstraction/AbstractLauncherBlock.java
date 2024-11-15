@@ -17,7 +17,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
@@ -31,6 +31,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.block.WireOrientation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
     public static final Identifier LAUNCH_SOUND = Identifier.of(LMLoader.MOD_ID, "launcher_block_launch");
     public static final BooleanProperty TRIGGERED;
     public static final IntProperty MODELS = IntProperty.of("models", 0, 2);
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
 
     static {
         TRIGGERED = Properties.TRIGGERED;
@@ -92,7 +93,10 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
                 multiplier *= 1.75F;
             }
             Block current;
-            while (currentIndex < maxStackable && ((current = world.getBlockState(currentPos).getBlock()) instanceof AbstractLauncherBlock && world.getBlockState(currentPos).get(FACING).equals(parentState.get(FACING)))) {
+            while (currentIndex < maxStackable && ((current = world.getBlockState(currentPos).getBlock()) instanceof AbstractLauncherBlock && world
+                    .getBlockState(currentPos)
+                    .get(FACING)
+                    .equals(parentState.get(FACING)))) {
                 AbstractLauncherBlock launcherBlock = (AbstractLauncherBlock) current;
                 multiplier += launcherBlock.stackMultiplier;
                 currentPos = currentPos.offset(stackDirection);
@@ -111,7 +115,7 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
     }
 
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos neighborPos, boolean moved) {
+    protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
         AbstractLauncherBlockEntity launcherBlockEntity = (AbstractLauncherBlockEntity) world.getBlockEntity(pos);
         boolean isRecevingRedstonePower = world.isReceivingRedstonePower(pos) || world.isReceivingRedstonePower(pos.up());
         boolean isTriggered = (Boolean) state.get(TRIGGERED);
@@ -126,6 +130,7 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
             world.setBlockState(pos, (BlockState) state.with(TRIGGERED, false), 4);
         }
     }
+
 
     @Nullable
     @Override
@@ -160,7 +165,10 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
     public boolean canLaunch(World world, BlockPos pos) {
         AbstractLauncherBlockEntity launcherBlockEntity = (AbstractLauncherBlockEntity) world.getBlockEntity(pos);
         BlockPos offset = pos.offset(world.getBlockState(pos).get(FACING));
-        return (world.getBlockState(offset).isAir() || world.getBlockState(offset).getBlock().equals(Blocks.TRIPWIRE)) && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED;
+        return (world.getBlockState(offset).isAir() || world
+                .getBlockState(offset)
+                .getBlock()
+                .equals(Blocks.TRIPWIRE)) && launcherBlockEntity.launcherState == AbstractLauncherBlockEntity.LauncherState.RETRACTED;
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {

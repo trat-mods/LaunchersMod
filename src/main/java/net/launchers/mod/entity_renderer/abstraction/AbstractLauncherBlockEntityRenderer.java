@@ -28,10 +28,13 @@ public abstract class AbstractLauncherBlockEntityRenderer<T extends AbstractLaun
         float extension = blockEntity.getDeltaProgress(tickDelta);
         BakedModel model = null;
         BlockState blockState = blockEntity.getCachedState();
-        RenderLayer renderLayer = RenderLayers.getEntityBlockLayer(entityState, true);
+        RenderLayer renderLayer = RenderLayers.getEntityBlockLayer(entityState);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
-        BakedModel baseModel = blockRenderManager.getModel(blockState.with(AbstractLauncherBlock.MODELS, 0).with(AbstractLauncherBlock.FACING, blockState.get(AbstractLauncherBlock.FACING)));
-        this.blockRenderManager.getModelRenderer().render(blockEntity.getWorld(), baseModel, entityState, blockEntity.getPos(), matrices, vertexConsumer, true, new LocalRandom(4), 4, overlay);
+        BakedModel baseModel = blockRenderManager.getModel(
+                blockState.with(AbstractLauncherBlock.MODELS, 0).with(AbstractLauncherBlock.FACING, blockState.get(AbstractLauncherBlock.FACING)));
+        this.blockRenderManager
+                .getModelRenderer()
+                .render(blockEntity.getWorld(), baseModel, entityState, blockEntity.getPos(), matrices, vertexConsumer, true, new LocalRandom(4), 4, overlay);
         if (extension < 0.35F) {
             model = blockRenderManager.getModel(blockState.with(AbstractLauncherBlock.MODELS, 2).with(AbstractLauncherBlock.FACING, blockState.get(AbstractLauncherBlock.FACING)));
         }
@@ -40,7 +43,9 @@ public abstract class AbstractLauncherBlockEntityRenderer<T extends AbstractLaun
         }
         Vec3d translation = MathUtils.fromDirection(blockState.get(AbstractLauncherBlock.FACING));
         matrices.translate(translation.x * extension, translation.y * extension, translation.z * extension);
-        this.blockRenderManager.getModelRenderer().render(blockEntity.getWorld(), model, entityState, blockEntity.getPos(), matrices, vertexConsumer, true, new LocalRandom(4), 4, overlay);
+        this.blockRenderManager
+                .getModelRenderer()
+                .render(blockEntity.getWorld(), model, entityState, blockEntity.getPos(), matrices, vertexConsumer, true, new LocalRandom(4), 4, overlay);
         matrices.pop();
     }
 }
