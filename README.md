@@ -1,7 +1,7 @@
 <h2 align="center">Welcome to the Wiki page of Launchers Mod</h2>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/31132987/78308663-58bc0180-7549-11ea-9c09-3a1813e2a986.png">
+  <img src="https://user-images.githubusercontent.com/31132987/78308663-58bc0180-7549-11ea-9c09-3a1813e2a986.png" width="256">
 </p>
 
 ## Introduction
