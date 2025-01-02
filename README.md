@@ -1,8 +1,22 @@
+<p align="center"><b>📢 Get 25% off of your Minecraft Server! 📢</b></p>
+<p align="center">
+  <img src="https://solar-digital.com/images/portfolio/120/thumb/bisect-hosting.gif" width="400">
+</p>
+
+<p align="center">
+    <a href="https://url-shortener.curseforge.com/visbm" target="_blank">  
+        <img src="https://github.com/user-attachments/assets/55cd0dd6-968f-4b4b-bb39-85fc05547f37" width="200"/>
+    </a>
+</p>
+
+
+
 <h2 align="center">Welcome to the Wiki page of Launchers Mod</h2>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/31132987/78308663-58bc0180-7549-11ea-9c09-3a1813e2a986.png" width="256">
 </p>
+
 
 ## Introduction
 
