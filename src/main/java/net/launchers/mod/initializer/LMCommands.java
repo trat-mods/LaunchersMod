@@ -22,6 +22,7 @@ public final class LMCommands {
     private static final String LAUNCHER_ID = "l";
     private static final String P_LAUNCHER_ID = "p";
     private static final String E_LAUNCHER_ID = "e";
+    private static final String U_LAUNCHER_ID = "u";
 
     public static void initialize() {
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated, environment) -> {
@@ -30,7 +31,7 @@ public final class LMCommands {
     }
 
     private static float getHeightFromForce(float force) {
-        return (float) (7 * Math.pow(force, 1.6F) - Math.pow(force, 1.25F));
+        return (float) (-8.22 + 9.38 * force + 2.25 * Math.pow(force, 2) - 0.06 * Math.pow(force, 3));
     }
 
     private final static class Lcalc {
@@ -54,14 +55,13 @@ public final class LMCommands {
                 launchersList.add(getString(ctx, "third"));
                 launchersList.add(getString(ctx, "fourth"));
                 return checkIdsAndPrintForce(launchersList, ctx);
-            }))))).executes(ctx -> {
-                return checkIdsAndPrintForce(launchersList, ctx);
-            }));
+            }))))).executes(ctx -> checkIdsAndPrintForce(launchersList, ctx)));
         }
 
         private static boolean areLauncherIdValid(ArrayList<String> ids) {
+            if (ids.size() > 1 && ids.contains((U_LAUNCHER_ID))) return false;
             for (String current : ids) {
-                if (!current.equals("l") && !current.equals("p") && !current.equals("e")) {
+                if (!current.equals(LAUNCHER_ID) && !current.equals(P_LAUNCHER_ID) && !current.equals(E_LAUNCHER_ID) && !current.equals(U_LAUNCHER_ID)) {
                     return false;
                 }
             }
@@ -73,6 +73,7 @@ public final class LMCommands {
                 case LAUNCHER_ID -> LMBlock.LAUNCHER_BLOCK.stackMultiplier;
                 case P_LAUNCHER_ID -> LMBlock.POWERED_LAUNCHER_BLOCK.stackMultiplier;
                 case E_LAUNCHER_ID -> LMBlock.EXTREME_LAUNCHER_BLOCK.stackMultiplier;
+                case U_LAUNCHER_ID -> LMBlock.ULTIMATE_LAUNCHER_BLOCK.stackMultiplier;
                 default -> 0F;
             };
         }
@@ -82,12 +83,13 @@ public final class LMCommands {
                 case LAUNCHER_ID -> LMBlock.LAUNCHER_BLOCK.baseMultiplier;
                 case P_LAUNCHER_ID -> LMBlock.POWERED_LAUNCHER_BLOCK.baseMultiplier;
                 case E_LAUNCHER_ID -> LMBlock.EXTREME_LAUNCHER_BLOCK.baseMultiplier;
+                case U_LAUNCHER_ID -> LMBlock.ULTIMATE_LAUNCHER_BLOCK.baseMultiplier;
                 default -> 0F;
             };
         }
 
         private static float getForce(ArrayList<String> ids) {
-            float base = getBaseForceByLauncherId(ids.get(0));
+            float base = getBaseForceByLauncherId(ids.getFirst());
             float multipier = 1F;
             for (int i = 1; i < ids.size(); i++) {
                 multipier += getStackForceByLauncherId(ids.get(i));
@@ -97,7 +99,14 @@ public final class LMCommands {
 
         private static int checkIdsAndPrintForce(ArrayList<String> launchersList, CommandContext<ServerCommandSource> context) {
             if (!areLauncherIdValid(launchersList)) {
-                context.getSource().sendFeedback(() -> Text.of("\nOne or more parameters are not correct.\n" + "Usage:\n" + "l: Launcher\n" + "p: Powered Launcher\n" + "e: Extreme Launcher\n"), false);
+                context.getSource().sendFeedback(() -> Text.of("""                                                                       
+                                                                       One or more parameters are not correct.
+                                                                       Usage:
+                                                                       l: Launcher
+                                                                       p: Powered Launcher
+                                                                       e: Extreme Launcher
+                                                                       u: Ultimate Launcher (non stackable)
+                                                                       """), false);
                 launchersList.clear();
                 return 0;
             }
@@ -114,11 +123,23 @@ public final class LMCommands {
         }
 
         public static SuggestionProvider<ServerCommandSource> suggestedStrings() {
-            ArrayList<String> suggestions = new ArrayList<>();
-            suggestions.add(LAUNCHER_ID);
-            suggestions.add(P_LAUNCHER_ID);
-            suggestions.add(E_LAUNCHER_ID);
-            return (ctx, builder) -> getSuggestionsBuilder(builder, suggestions);
+            return (ctx, builder) -> {
+                ArrayList<String> suggestions = new ArrayList<>();
+                try {
+                    var first = ctx.getArgument("first", String.class);
+                    if (!U_LAUNCHER_ID.equals(first)) {
+                        suggestions.add(LAUNCHER_ID);
+                        suggestions.add(P_LAUNCHER_ID);
+                        suggestions.add(E_LAUNCHER_ID);
+                    }
+                } catch (Exception ex) {
+                    suggestions.add(LAUNCHER_ID);
+                    suggestions.add(P_LAUNCHER_ID);
+                    suggestions.add(E_LAUNCHER_ID);
+                    suggestions.add(U_LAUNCHER_ID);
+                }
+                return getSuggestionsBuilder(builder, suggestions);
+            };
         }
 
         private static CompletableFuture<Suggestions> getSuggestionsBuilder(SuggestionsBuilder builder, List<String> list) {

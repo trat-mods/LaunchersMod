@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#D#",
+    "#T#",
+    "###"
+  ],
+  "key": {
+    "T": "minecraft:tnt",
+    "#": "minecraft:diamond",
+    "D": "launchersmod:powered_launcher_block"
+  },
+  "result": {
+    "id": "launchersmod:extreme_launcher_block",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#D#",
+    "#P#",
+    "###"
+  ],
+  "key": {
+    "P": "minecraft:tnt",
+    "#": "minecraft:netherite_scrap",
+    "D": "launchersmod:extreme_launcher_block"
+  },
+  "result": {
+    "id": "launchersmod:ultimate_launcher_block",
+    "count": 1
+  }
+}

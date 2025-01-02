@@ -41,6 +41,7 @@ public abstract class AbstractLauncherBlockEntity extends BlockEntity {
         launcherState = LauncherState.RETRACTED;
     }
 
+
     public static void tick(World world, BlockPos pos, BlockState state, AbstractLauncherBlockEntity be) {
         switch (be.launcherState) {
             case EXTENDED:

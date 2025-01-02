@@ -1,5 +1,10 @@
 {
-    "block.launchersmod.launcher_block": "Launcher",
-    "block.launchersmod.powered_launcher_block": "Powered Launcher",
-    "block.launchersmod.extreme_launcher_block": "Extreme Launcher"
+  "block.launchersmod.launcher_block": "Launcher",
+  "block.launchersmod.powered_launcher_block": "Powered Launcher",
+  "block.launchersmod.extreme_launcher_block": "Extreme Launcher",
+  "block.launchersmod.ultimate_launcher_block": "Ultimate Launcher",
+  "item.launchersmod.launcher_block": "Launcher",
+  "item.launchersmod.powered_launcher_block": "Powered Launcher",
+  "item.launchersmod.extreme_launcher_block": "Extreme Launcher",
+  "item.launchersmod.ultimate_launcher_block": "Ultimate Launcher"
 }

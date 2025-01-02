@@ -1,0 +1,8 @@
+{
+  "parent": "launchersmod:template/template_launcher_block",
+  "textures": {
+    "bottom": "launchersmod:block/ultimate_launcher_block_bottom",
+    "top": "launchersmod:block/ultimate_launcher_block_top",
+    "side": "launchersmod:block/ultimate_launcher_block_side"
+  }
+}

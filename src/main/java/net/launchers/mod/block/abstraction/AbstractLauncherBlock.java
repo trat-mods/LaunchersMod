@@ -1,5 +1,6 @@
 package net.launchers.mod.block.abstraction;
 
+import net.launchers.mod.block.UltimateLauncherBlock;
 import net.launchers.mod.entity.abstraction.AbstractLauncherBlockEntity;
 import net.launchers.mod.initializer.LMSounds;
 import net.launchers.mod.loader.LMLoader;
@@ -48,10 +49,9 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
         FACING = FacingBlock.FACING;
     }
 
-    private final float launchForce = 1F;
-    private final int maxStackable = 4;
     public float stackMultiplier;
     public float baseMultiplier;
+    protected int maxStackable = 4;
     protected float stackPowerPercentage;
 
     //DropperBlock
@@ -72,6 +72,7 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
         entity.handleFallDamage(fallDistance, 0.0F, world.getDamageSources().fall());
     }
 
+
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(MODELS, TRIGGERED, FACING);
@@ -79,9 +80,10 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
 
     public void launchEntities(World world, BlockPos pos, List<? extends Entity> entities) {
         if (!world.isClient) {
-            if (entities.size() < 1) {
+            if (entities.isEmpty()) {
                 return;
             }
+            float launchForce = 1F;
             float force = launchForce * baseMultiplier;
 
             BlockState parentState = world.getBlockState(pos);
@@ -93,16 +95,19 @@ public abstract class AbstractLauncherBlock extends BlockWithEntity {
                 multiplier *= 1.75F;
             }
             Block current;
-            while (currentIndex < maxStackable && ((current = world.getBlockState(currentPos).getBlock()) instanceof AbstractLauncherBlock && world
+            while (currentIndex < maxStackable && ((current = world
+                    .getBlockState(currentPos)
+                    .getBlock()) instanceof AbstractLauncherBlock && !(current instanceof UltimateLauncherBlock) && world
                     .getBlockState(currentPos)
                     .get(FACING)
                     .equals(parentState.get(FACING)))) {
                 AbstractLauncherBlock launcherBlock = (AbstractLauncherBlock) current;
+
                 multiplier += launcherBlock.stackMultiplier;
                 currentPos = currentPos.offset(stackDirection);
                 currentIndex++;
             }
-            force *= multiplier;
+            force *= (float) multiplier;
             for (Entity entity : entities) {
                 Vec3d initialVelocity = entity.getVelocity();
                 Vec3d vectorForce = MathUtils.fromDirection(world.getBlockState(pos).get(AbstractLauncherBlock.FACING));

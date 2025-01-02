@@ -26,15 +26,11 @@ public abstract class AbstractLauncherBlockEntityRenderer<T extends AbstractLaun
         BlockState entityState = blockEntity.getCachedState();
         matrices.push();
         float extension = blockEntity.getDeltaProgress(tickDelta);
-        BakedModel model = null;
         BlockState blockState = blockEntity.getCachedState();
         RenderLayer renderLayer = RenderLayers.getEntityBlockLayer(entityState);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(renderLayer);
-        BakedModel baseModel = blockRenderManager.getModel(
-                blockState.with(AbstractLauncherBlock.MODELS, 0).with(AbstractLauncherBlock.FACING, blockState.get(AbstractLauncherBlock.FACING)));
-        this.blockRenderManager
-                .getModelRenderer()
-                .render(blockEntity.getWorld(), baseModel, entityState, blockEntity.getPos(), matrices, vertexConsumer, true, new LocalRandom(4), 4, overlay);
+
+        BakedModel model = null;
         if (extension < 0.35F) {
             model = blockRenderManager.getModel(blockState.with(AbstractLauncherBlock.MODELS, 2).with(AbstractLauncherBlock.FACING, blockState.get(AbstractLauncherBlock.FACING)));
         }

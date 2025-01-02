@@ -1,0 +1,83 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "head": "launchersmod:block/ultimate_launcher_block_head_top",
+    "side_head": "launchersmod:block/ultimate_launcher_block_head_side",
+    "particle": "#head",
+    "side": "launchersmod:block/ultimate_launcher_block_side",
+    "down": "launchersmod:block/ultimate_launcher_block_bottom",
+    "up": "launchersmod:block/ultimate_launcher_block_top"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        12,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#down",
+          "cullface": "down"
+        },
+        "up": {
+          "texture": "#up",
+          "cullface": "up"
+        },
+        "north": {
+          "texture": "#side",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#side",
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#side",
+          "cullface": "west"
+        },
+        "east": {
+          "texture": "#side",
+          "cullface": "east"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        12,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#head"
+        },
+        "up": {
+          "texture": "#head"
+        },
+        "north": {
+          "texture": "#side_head"
+        },
+        "south": {
+          "texture": "#side_head"
+        },
+        "west": {
+          "texture": "#side_head"
+        },
+        "east": {
+          "texture": "#side_head"
+        }
+      }
+    }
+  ]
+}

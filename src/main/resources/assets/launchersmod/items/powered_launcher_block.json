@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "launchersmod:item/powered_launcher_block"
+  }
+}
