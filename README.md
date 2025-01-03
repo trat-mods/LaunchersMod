@@ -56,49 +56,41 @@ for fast two way elevators.
 
 ### Launcher
 
-<div style="display: flex; align-items: center; margin: 20px 0;">
-    <img src="https://user-images.githubusercontent.com/31132987/78308522-fc58e200-7548-11ea-9195-2e9faa4cc247.png" alt="Description" style="width: 400px; margin-right: 20px;">
-    <div style="flex: 1;">
-        <p style="margin: 0;">Base force: <span style="font-weight: bold">1.25</span></p>
-        <p style="margin: 0;">Stackable: ✅</p>
-        <p style="margin: 0;">Stack power percentage: <span style="font-weight: bold">33.5%</span></p>
-        <p style="margin: 0;">Effective stack multiplier: <span style="font-weight: bold">0.41875</span></p>
-    </div>
-</div>
+<img src="https://user-images.githubusercontent.com/31132987/78308522-fc58e200-7548-11ea-9195-2e9faa4cc247.png" alt="Description" style="width: 400px; margin-right: 20px;">
+
+Base force: **1.25**  
+Stackable: ✅   
+Stack power percentage: **33.5%**   
+Effective stack multiplier: **0.41875**   
+
 
 ### Powered Launcher
 
-<div style="display: flex; align-items: center; margin: 20px 0;">
-    <img src="https://user-images.githubusercontent.com/31132987/78308525-fcf17880-7548-11ea-815f-bc45d9f1a1ad.png" alt="Description" style="width: 400px; margin-right: 20px;">
-    <div style="flex: 1;">
-        <p style="margin: 0;">Base force: <span style="font-weight: bold">2.125</span></p>
-        <p style="margin: 0;">Stackable: ✅</p>
-        <p style="margin: 0;">Stack power percentage: <span style="font-weight: bold">29.75%</span></p>
-        <p style="margin: 0;">Effective stack multiplier: <span style="font-weight: bold">0.63218</span></p>
-    </div>
-</div>
+<img src="https://user-images.githubusercontent.com/31132987/78308525-fcf17880-7548-11ea-815f-bc45d9f1a1ad.png" alt="Description" style="width: 400px; margin-right: 20px;">
+
+Base force: **2.125**   
+Stackable: ✅   
+Stack power percentage: **29.75%**   
+Effective stack multiplier: **0.63218**   
 
 ### Extreme Launcher
 
-<div style="display: flex; align-items: center; margin: 20px 0;">
-    <img src="https://user-images.githubusercontent.com/31132987/78308521-fbc04b80-7548-11ea-8a37-7ad6fe9a3193.png" alt="Description" style="width: 400px; margin-right: 20px;">
-    <div style="flex: 1;">
-        <p style="margin: 0;">Base force: <span style="font-weight: bold">2.95</span></p>
-        <p style="margin: 0;">Stackable: ✅</p>
-        <p style="margin: 0;">Stack power percentage: <span style="font-weight: bold">27.5%</span></p>
-        <p style="margin: 0;">Effective stack multiplier: <span style="font-weight: bold">0.81125</span></p>
-    </div>
-</div>
+<img src="https://user-images.githubusercontent.com/31132987/78308521-fbc04b80-7548-11ea-8a37-7ad6fe9a3193.png" alt="Description" style="width: 400px; margin-right: 20px;">
+
+Base force: **2.95**   
+Stackable: ✅   
+Stack power percentage: **27.5%**   
+Effective stack multiplier: **0.81125**   
 
 ### Ultimate Launcher
 
-<div style="display: flex; align-items: center; margin: 20px 0;">
-    <img src="https://user-images.githubusercontent.com/31132987/78308521-fbc04b80-7548-11ea-8a37-7ad6fe9a3193.png" alt="Description" style="width: 400px; margin-right: 20px;">
-    <div style="flex: 1;">
-        <p style="margin: 0;">Base force: <span style="font-weight: bold">13.75</span></p>
-        <p style="margin: 0;">Stackable: ❌</p>
-    </div>
-</div>
+<img src="https://github.com/user-attachments/assets/be224bdb-f14b-436d-9728-9e4d5bb0d4bf" alt="Description" style="width: 400px; margin-right: 20px;">
+
+Base force: **13.75**   
+Stackable: ❌
+
+> [!TIP]
+> With the Ultimate Launcher, it is possible to go from minimum build limit to maximum build limit with a single launcher!
 
 ## Directional Launchers
 
